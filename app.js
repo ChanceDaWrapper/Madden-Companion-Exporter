@@ -17,7 +17,7 @@ const serviceAccount = require("mars-f9b8f-firebase-adminsdk-yoyha-6310d74740.js
 // Refer to picture for reference. It's the 2nd property.
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://mars-f9b8f.firebaseio.com/"
+  databaseURL: "https://mars.firebaseio.com/"
 });
 
 app.set('port', (process.env.PORT || 3001));
