@@ -47,35 +47,31 @@ app.post('/:username/:platform/:leagueId/leagueteams', (req, res) => {
 });
 
 app.post('/:username/:platform/:leagueId/standings', async (req, res) => {
-    try {
-        const db = admin.database();
-        const ref = db.ref();
-        
-        let body = '';
-        req.on('data', chunk => {
-            body += chunk.toString();
-        });
-        
-        req.on('end', async () => {
-            try {
-                const { teamStandingInfoList: teams } = JSON.parse(body);
-                const { params: { username, leagueId } } = req;
+      const db = admin.database();
+      const ref = db.ref();
+      
+      let body = '';
+      req.on('data', chunk => {
+          body += chunk.toString();
+      });
+      
+      req.on('end', async () => {
+          try {
+              const { teamStandingInfoList: teams } = JSON.parse(body);
+              const { params: { username, leagueId } } = req;
 
-                for (const team of teams) {
-                    const teamRef = ref.child(`data/${username}/${leagueId}/teams/${team.teamId}`);
-                    await teamRef.set(team);
-                }
+              for (const team of teams) {
+                  const teamRef = ref.child(`data/${username}/${leagueId}/teams/${team.teamId}`);
+                  await teamRef.set(team);
+              }
 
-                res.sendStatus(200);
-            } catch (error) {
-                console.error('Error parsing or processing data:', error);
-                res.sendStatus(500);
-            }
-        });
-    } catch (error) {
-        console.error('Error handling request:', error);
-        res.sendStatus(500);
-    }
+              res.sendStatus(200);
+          } catch (error) {
+              console.error('Error parsing or processing data:', error);
+              res.sendStatus(500);
+          }
+      });
+
 });
 
 
